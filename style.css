@@ -186,7 +186,7 @@ button.button_selected {
 }
 
 .temperature_over_jp::before {
-	content: '気温';
+	content: '温度';
 }
 
 .humidity_over::before {
