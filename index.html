@@ -98,7 +98,7 @@
 		    </div>
 	    </div>
 	    <div class="infoBox blue">
-	    	<div class="over">
+	    	<div class="over box_dps">
 	    	</div>
 	    </div>
 	</div>
@@ -197,7 +197,7 @@
                     let id = devices.data[i].id;
                     document.getElementById("device-list").innerHTML +=
                     	'<input type="radio" name="selected-device" value="' + id + '"'
-                        + ' id="' + id + '" onClick="subscribeTemperature()"> ' + '<label for="' + id + '">' + id + "</label><br />\n";
+                        + ' id="' + id + '" onClick="subscribeCamera();subscribeTemperature()"> ' + '<label for="' + id + '">' + id + "</label><br />\n";
                         /*+ (i == 0 ? " checked" : "" ) +'> ' + id + "<br />\n";*/
                     console.log(id);
                 }
@@ -239,18 +239,17 @@
 
         	document.getElementById(blockId).innerText = '-';
 
-
                      let deviceId = getSelectedDeviceId();
                      // Add subscription for the selected device.
                      connect.addResourceSubscription(deviceId, path, data => {      // Called every notification
-                    	document.getElementById(blockId).innerText = data.toFixed(digit);
-                     	console.log(blockId + ': ' + data);
+                    	 console.log(blockId + ': ' + data);
+                    	 document.getElementById(blockId).innerText = data.toFixed(digit);
                      })
                      .then(asyncId => { // Called subscription succeed.
                         // console.log(asyncId);
                          // Enable the photo capture button
                          document.getElementById("button-trigger-camera").disabled = false;
-                         document.getElementById("device-list-message-holder").innerText = 'Selected device is enabled.';
+                         document.getElementById("device-list-message-holder").innerHTML = '<span lang="en">Selected device is enabled.</span><span lang="ja">にほんご</span>';
                      })
                      .catch(error => {
                          console.log(error);
