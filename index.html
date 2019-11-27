@@ -235,8 +235,6 @@
 
         function getValue(blockId, path, digit) {
 
-            connect = new MbedCloudSDK.ConnectApi.default(window.config);
-
         	document.getElementById(blockId).innerText = '-';
 
                      let deviceId = getSelectedDeviceId();
@@ -249,7 +247,7 @@
                         // console.log(asyncId);
                          // Enable the photo capture button
                          document.getElementById("button-trigger-camera").disabled = false;
-                         document.getElementById("device-list-message-holder").innerHTML = '<span lang="en">Selected device is enabled.</span><span lang="ja">にほんご</span>';
+                         document.getElementById("device-list-message-holder").innerText = 'Selected device is enabled.';
                      })
                      .catch(error => {
                          console.log(error);
