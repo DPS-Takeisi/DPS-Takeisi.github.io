@@ -267,6 +267,68 @@ p {
 	margin: 0;
 }
 
+div#shutter {
+	position: fixed;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: white;
+	animation: opening_shutter 2.5s ease forwards;
+}
+
+div#shutter_logo {
+	position: fixed;
+	z-index: 3;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: url('img/dps_logo2.png') no-repeat;
+	background-position: center;
+	background-size: 60%;
+	animation: opening_logo 2.5s ease forwards;
+}
+
+@keyframes opening_shutter {
+	0% {
+		opacity: 1;
+	}
+
+	80% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
+@keyframes opening_logo {
+	0% {
+		opacity: 0;
+	}
+
+	25% {
+		opacity: 1;
+	}
+
+	70% {
+		margin-top: 0;
+	}
+
+	80% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
 div[lang="ja"], span[lang="ja"], p[lang="ja"], select[lang="ja"] {
 	display: none;
 }
