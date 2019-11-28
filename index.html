@@ -1,4 +1,4 @@
-<!--
+﻿<!--
  Mbed Cloud JavaScript SDK
  Copyright Arm Limited 2017
 
@@ -27,7 +27,6 @@
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
 
-
     <link rel="stylesheet" href="style.css">
 
     <script src="./config.js"></script>
@@ -36,13 +35,15 @@
 
 </head>
 <body>
+	<div id="shutter"></div>
+	<div id="shutter_logo"></div>
 	<div id="dps_logo"></div>
     <div style="float: right;">
-    	<button id="en">English</button><button id="jp">日本語</button>
+    	<button id="en" class="button_selected">English</button><button id="jp">日本語</button>
     </div>
     <div id="apikey-holder" style="clear: both;">
         <span lang="en">API Key</span><span lang="ja">APIキー</span>:
-        <input id="api_key" type="text" value="ak_1MDE2ZTYzNmVjYmE0NTI3M2FmNmYxMDdjMDAwMDAwMDA016e6377e4645273af6f107c00000000FGDEz4K5qWW9DlkSBQRSF6Tleqdqrtpi" />
+        <input id="api_key" type="text" />
         <button type="button" id="button-get-device-list" onClick="getDeviceList()"><span lang="en">Connect</span><span lang="ja">接続</span></button>
     </div>
 
@@ -99,11 +100,12 @@
 		    </div>
 	    </div>
 	    <div class="infoBox blue">
-	    	<div class="over">
+	    	<div class="over box_dps">
 	    	</div>
 	    </div>
 	</div>
 
+<div style="display: none;">
     <hr />
 
     <div>
@@ -156,7 +158,7 @@
     <div id="image-holder" style="margin: 8pt 0px 0px 8pt;">
         <!-- Received Photo Here. -->
     </div>
-
+</div>
     <!-- Javascript -->
     <script>
         const cameraCaptureRes = "/3200/0/4014";    // Camera capture
@@ -197,13 +199,13 @@
                 for(let i=0; i < devices.data.length; i++) {
                     let id = devices.data[i].id;
                     document.getElementById("device-list").innerHTML +=
-                        '<input type="radio" name="selected-device" value="' + id + '"'
-                        + ' id="button-subscribe-camera" onClick="subscribeTemperature()"> ' + id + "<br />\n";
+                    	'<input type="radio" name="selected-device" value="' + id + '"'
+                        + ' id="' + id + '" onClick="subscribeCamera();subscribeTemperature()"> ' + '<label for="' + id + '">' + id + "</label><br />\n";
                         /*+ (i == 0 ? " checked" : "" ) +'> ' + id + "<br />\n";*/
                     console.log(id);
                 }
                 // Enable the subscribe button
-                document.getElementById("button-subscribe-camera").disabled = false;
+                //document.getElementById("button-subscribe-camera").disabled = false;
             })
             .catch(error => {
                 console.log(error);
@@ -236,9 +238,12 @@
 
         function getValue(blockId, path, digit) {
 
+        	document.getElementById(blockId).innerText = '-';
+
                      let deviceId = getSelectedDeviceId();
                      // Add subscription for the selected device.
                      connect.addResourceSubscription(deviceId, path, data => {      // Called every notification
+                    	 console.log(blockId + ': ' + data);
                     	 document.getElementById(blockId).innerText = data.toFixed(digit);
                      })
                      .then(asyncId => { // Called subscription succeed.
@@ -259,6 +264,8 @@
          */
          function subscribeTemperature() {
 
+        	 console.log('切り替えました');
+
              const temperaturePath = "/3303/0/5700";
              const humidityPath = "/3304/0/5700";
              const pressurePath = "/3323/0/5700";
@@ -270,7 +277,10 @@
 
              // Clear existing subscription if exist.
 
-             connect.deleteSubscriptions()
+
+             let promiseKari =	connect.deleteSubscriptions();
+
+             promiseKari
              .then(getValue("temperature", temperaturePath, 1))
              .then(getValue("humidity", humidityPath, 1))
              .then(getValue("pressure", pressurePath, 1))
@@ -422,6 +432,8 @@
         	$('.uv_over').addClass('uv_over_jp');
         	$(':lang(en)').hide();
         	$(':lang(ja)').show();
+        	$('#en').removeClass('button_selected');
+        	$('#jp').addClass('button_selected');
         });
 
         $('#en').on('click', function() {
@@ -432,6 +444,8 @@
         	$('.uv_over').removeClass('uv_over_jp');
         	$(':lang(en)').show();
         	$(':lang(ja)').hide();
+        	$('#en').addClass('button_selected');
+        	$('#jp').removeClass('button_selected');
         });
 
     </script>
