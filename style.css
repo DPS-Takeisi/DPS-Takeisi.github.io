@@ -275,7 +275,7 @@ div#shutter {
 	width: 100vw;
 	height: 100vh;
 	background-color: white;
-	animation: opening_shutter 10s ease forwards;
+	animation: opening_shutter 3s ease forwards;
 }
 
 div#shutter_logo {
@@ -289,7 +289,7 @@ div#shutter_logo {
 	background-repeat:  no-repeat;
 	background-size: 60%;
 	background-position: center;
-	animation: opening_logo 10s ease forwards;
+	animation: opening_logo 3s ease forwards;
 }
 
 @keyframes opening_shutter {
