@@ -281,13 +281,14 @@ div#shutter {
 div#shutter_logo {
 	position: fixed;
 	z-index: 3;
-	top: 0;
+	top: -10vh;
 	left: 0;
 	width: 100vw;
 	height: 100vh;
-	background: url('img/DPS_logo2.png') no-repeat;
-	background-position: center;
+	background-image: url('img/DPS_logo2.png');
+	background-repeat:  no-repeat;
 	background-size: 60%;
+	background-position: center;
 	animation: opening_logo 3s ease forwards;
 }
 
