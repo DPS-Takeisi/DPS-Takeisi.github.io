@@ -275,7 +275,7 @@ div#shutter {
 	width: 100vw;
 	height: 100vh;
 	background-color: white;
-	animation: opening_shutter 2.5s ease forwards;
+	animation: opening_shutter 3s ease forwards;
 }
 
 div#shutter_logo {
@@ -288,7 +288,7 @@ div#shutter_logo {
 	background: url('img/dps_logo2.png') no-repeat;
 	background-position: center;
 	background-size: 60%;
-	animation: opening_logo 2.5s ease forwards;
+	animation: opening_logo 3s ease forwards;
 }
 
 @keyframes opening_shutter {
@@ -296,7 +296,7 @@ div#shutter_logo {
 		opacity: 1;
 	}
 
-	80% {
+	90% {
 		opacity: 1;
 	}
 
@@ -308,18 +308,21 @@ div#shutter_logo {
 
 @keyframes opening_logo {
 	0% {
+		filter: blur(40px);
+		margin-top: 5vh;
 		opacity: 0;
 	}
 
-	25% {
+	15% {
+		filter: none;
 		opacity: 1;
 	}
 
-	70% {
+	40% {
 		margin-top: 0;
 	}
 
-	80% {
+	90% {
 		opacity: 1;
 	}
 
