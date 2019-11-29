@@ -18,7 +18,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Pelion & GR-LYCHEE Camera Monitoring</title>
+    <title>Pelion Sensor Monitoring</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
@@ -108,16 +108,14 @@
     <div>
     	<div>
 	        <p lang="en" style="font-size: small; color: #888888;">
-	                To take a picture, click the CAPTURE button.<br />
-	                You can also take a picture by pushing UB0 button on GR-LYCHEE.
+	                To get sensor values, click the "GET" button.<br />
 	        </p>
 	        <p lang="ja" class="capture_description_jp" style="font-size: small; color: #888888;">
-	        		映像をキャプチャする際は「キャプチャ」ボタンをクリックしてください。<br />
-	        		GR-LYCHEEボードのUB0ボタンでもキャプチャできます。
+	        		センサーデータを取得する際は「取得」ボタンをクリックしてください。<br />
 	        </p>
         </div>
         <p style="margin: 8pt 0pt 8pt 0pt;">
-            <input type="checkbox" id="checkbox-auto-capture" onClick="handleAutoCapture()"> <span lang="en">auto capture</span><span lang="ja">自動キャプチャ</span>
+            <input type="checkbox" id="checkbox-auto-capture" onClick="handleAutoCapture()"> <span lang="en">auto collection</span><span lang="ja">自動取得</span>
                 <select id="trigger-period" name="trigger period" lang="en">
                     <option value="0">continuously</option>
                     <option value="5" selected>wait 5 sec</option>
@@ -143,7 +141,7 @@
                 </select>
         </p>
         <p>
-            <button type="button" id="button-trigger-camera" onClick="triggerCamera()" disabled><span lang="en">Capture</span><span lang="ja">キャプチャ</span></button>
+            <button type="button" id="button-trigger-camera" onClick="triggerCamera()" disabled><span lang="en">GET</span><span lang="ja">取得</span></button>
         </p>
         <div id="device-message-holder" style="margin: 8pt 0pt 8pt 0pt;">
             <!-- message here. -->
