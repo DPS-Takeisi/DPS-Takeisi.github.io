@@ -124,16 +124,22 @@ table {
 
 #dps_logo {
 	float: left;
-	width: 300px;
+	width: 190px;
 	height: 50px;
 	background: url('img/DPS_logo.png') no-repeat;
 	background-size: contain;
 }
 
+#dps_logo span a {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
 button#en, button#jp {
 	width: 70px;
-	height: 25px;
-	line-height: 25px;
+	height: 38px;
+	line-height: 38px;
 	text-align: center;
 	padding: 0;
 }
@@ -147,7 +153,7 @@ button.button_selected {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
-	margin: 0 auto;
+	margin: 0 auto 1em;
 }
 
 .infoBox {
@@ -186,7 +192,7 @@ button.button_selected {
 }
 
 .temperature_over_jp::before {
-	content: '気温';
+	content: '温度';
 }
 
 .humidity_over::before {
@@ -241,6 +247,15 @@ button.button_selected {
 	background-size: contain;
 }
 
+.box_dps::after {
+	content: '';
+	width: 100%;
+	height: 100%;
+	background: url('img/DPS_logo2.png') no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
 .green {
 	background-color: rgba(37, 182, 170, 0.6);
 }
@@ -256,6 +271,74 @@ button.button_selected {
 
 p {
 	margin: 0;
+}
+
+#shutter {
+	position: fixed;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: white;
+	animation: opening_shutter 3s ease forwards;
+	will-change: animation, opacity;
+}
+
+#shutter_logo {
+	position: fixed;
+	z-index: 3;
+	top: -10vh;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-image: url('img/DPS_logo2.png');
+	background-repeat:  no-repeat;
+	background-size: 60%;
+	background-position: center;
+	animation: opening_logo 3s ease forwards;
+	will-change: animation, filter, margin-top, opacity;
+}
+
+@keyframes opening_shutter {
+	0% {
+		opacity: 1;
+	}
+
+	90% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
+@keyframes opening_logo {
+	0% {
+		filter: blur(40px);
+		margin-top: 5vh;
+		opacity: 0;
+	}
+
+	15% {
+		filter: none;
+		opacity: 1;
+	}
+
+	40% {
+		margin-top: 0;
+	}
+
+	90% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+		visibility: hidden;
+	}
 }
 
 div[lang="ja"], span[lang="ja"], p[lang="ja"], select[lang="ja"] {
