@@ -124,10 +124,16 @@ table {
 
 #dps_logo {
 	float: left;
-	width: 300px;
+	width: 190px;
 	height: 50px;
 	background: url('img/DPS_logo.png') no-repeat;
 	background-size: contain;
+}
+
+#dps_logo span a {
+	display: block;
+	width: 100%;
+	height: 100%;
 }
 
 button#en, button#jp {
@@ -147,7 +153,7 @@ button.button_selected {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
-	margin: 0 auto;
+	margin: 0 auto 1em;
 }
 
 .infoBox {
@@ -236,17 +242,17 @@ button.button_selected {
 	content: 'UVインデックス';
 }
 
+.box_uv {
+	background: url('img/uv.svg') no-repeat;
+	background-size: contain;
+}
+
 .box_dps::after {
 	content: '';
 	width: 100%;
 	height: 100%;
 	background: url('img/DPS_logo2.png') no-repeat;
 	background-position: center;
-	background-size: contain;
-}
-
-.box_uv {
-	background: url('img/uv.svg') no-repeat;
 	background-size: contain;
 }
 
@@ -267,7 +273,7 @@ p {
 	margin: 0;
 }
 
-div#shutter {
+#shutter {
 	position: fixed;
 	z-index: 2;
 	top: 0;
@@ -279,7 +285,7 @@ div#shutter {
 	will-change: animation, opacity;
 }
 
-div#shutter_logo {
+#shutter_logo {
 	position: fixed;
 	z-index: 3;
 	top: -10vh;

@@ -25,19 +25,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
 
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap">
 
     <script src="./config.js"></script>
     <script src="./bundles/connect.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
 </head>
 <body>
 	<div id="shutter"></div>
 	<div id="shutter_logo"></div>
-	<div id="dps_logo"></div>
+
+	<div id="dps_logo"><span lang="en"><a href="http://www.dps-net.co.jp/en/" target="_blank"></a></span><span lang="ja"><a href="http://www.dps-net.co.jp/" target="_blank"></a></span></div>
     <div style="float: right;">
     	<button id="en" class="button_selected">English</button><button id="jp">日本語</button>
     </div>
@@ -54,12 +53,6 @@
     <div id="device-list" >
         <!-- Device list here. -->
     </div>
-
-<!--
-    <div>
-        <button type="button" id="button-subscribe-camera" onClick="subscribeTemperature()" disabled><span lang="en">Select Device</span><span lang="ja">デバイスを選択</span></button>
-    </div>
--->
 
     <hr />
 
@@ -105,63 +98,10 @@
 	    </div>
 	</div>
 
-<div style="display: none;">
-    <hr />
-
-    <div>
-    	<div>
-	        <p lang="en" style="font-size: small; color: #888888;">
-	                To get sensor values, click the "GET" button.<br />
-	        </p>
-	        <p lang="ja" class="capture_description_jp" style="font-size: small; color: #888888;">
-	        		センサーデータを取得する際は「取得」ボタンをクリックしてください。<br />
-	        </p>
-        </div>
-        <p style="margin: 8pt 0pt 8pt 0pt;">
-            <input type="checkbox" id="checkbox-auto-capture" onClick="handleAutoCapture()"> <span lang="en">auto collection</span><span lang="ja">自動取得</span>
-                <select id="trigger-period" name="trigger period" lang="en">
-                    <option value="0">continuously</option>
-                    <option value="5" selected>wait 5 sec</option>
-                    <option value="10">wait 10 sec</option>
-                    <option value="20">wait 20 sec</option>
-                    <option value="30">wait 30 sec</option>
-                    <option value="60">wait 1 min</option>
-                    <option value="300">wait 5 min</option>
-                    <option value="600">wait 10 min</option>
-                    <option value="3600">wait 1 hour</option>
-                </select>
-
-                <select id="trigger-period" name="trigger period" lang="ja">
-                    <option value="0">常時</option>
-                    <option value="5" selected>5秒間隔</option>
-                    <option value="10">10秒間隔</option>
-                    <option value="20">20秒間隔</option>
-                    <option value="30">30秒間隔</option>
-                    <option value="60">1分間隔</option>
-                    <option value="300">5分間隔</option>
-                    <option value="600">10分間隔</option>
-                    <option value="3600">1時間間隔</option>
-                </select>
-        </p>
-        <p>
-            <button type="button" id="button-trigger-camera" onClick="triggerCamera()" disabled><span lang="en">GET</span><span lang="ja">取得</span></button>
-        </p>
-        <div id="device-message-holder" style="margin: 8pt 0pt 8pt 0pt;">
-            <!-- message here. -->
-        </div>
-
-
-    </div>
-
-    <div id="image-holder" style="margin: 8pt 0px 0px 8pt;">
-        <!-- Received Photo Here. -->
-    </div>
-</div>
     <!-- Javascript -->
     <script>
         const cameraCaptureRes = "/3200/0/4014";    // Camera capture
         const cameraShutterRes = "/3201/0/5853";    // Camera shutter, which triggers taking a photo
-
 
         let connect;          // ConnectAPI object
 
@@ -198,7 +138,7 @@
                     let id = devices.data[i].id;
                     document.getElementById("device-list").innerHTML +=
                     	'<input type="radio" name="selected-device" value="' + id + '"'
-                        + ' id="' + id + '" onClick="subscribeCamera();subscribeTemperature()"> ' + '<label for="' + id + '">' + id + "</label><br />\n";
+                        + ' id="' + id + '" onClick="subscribeSensorValues()"> ' + '<label for="' + id + '">' + id + "</label><br />\n";
                         /*+ (i == 0 ? " checked" : "" ) +'> ' + id + "<br />\n";*/
                     console.log(id);
                 }
@@ -232,37 +172,34 @@
             return document.getElementById("checkbox-auto-capture").checked;
         }
 
-        //ここから自作
-
-        function getValue(blockId, path, digit) {
-
+		/*
+		 * Get each sensor value.
+		 */
+		function getValue(blockId, path, digit) {
         	document.getElementById(blockId).innerText = '-';
 
-                     let deviceId = getSelectedDeviceId();
-                     // Add subscription for the selected device.
-                     connect.addResourceSubscription(deviceId, path, data => {      // Called every notification
-                    	 console.log(blockId + ': ' + data);
-                    	 document.getElementById(blockId).innerText = data.toFixed(digit);
-                     })
-                     .then(asyncId => { // Called subscription succeed.
-                        // console.log(asyncId);
-                         // Enable the photo capture button
-                         document.getElementById("button-trigger-camera").disabled = false;
-                         document.getElementById("device-list-message-holder").innerText = 'Selected device is enabled.';
-                     })
-                     .catch(error => {
-                         console.log(error);
-                         document.getElementById("device-list-message-holder").innerHTML = '<font color="#ff0000">' + error + "</font>";
-                     });
-
-             }
+            let deviceId = getSelectedDeviceId();
+            // Add subscription for the selected device.
+            connect.addResourceSubscription(deviceId, path, data => {      // Called every notification
+           	 console.log(blockId + ': ' + data);
+           	 document.getElementById(blockId).innerText = data.toFixed(digit);
+            })
+            .then(asyncId => { // Called subscription succeed.
+                console.log(asyncId);
+                // Enable the photo capture button
+                document.getElementById("device-list-message-holder").innerText = 'Selected device is enabled.';
+            })
+            .catch(error => {
+                console.log(error);
+                document.getElementById("device-list-message-holder").innerHTML = '<font color="#ff0000">' + error + "</font>";
+            });
+		}
 
          /*
-         * Subscribes the camera resource on the selected device.
+         * Subscribes the sensor values on the selected device.
          */
-         function subscribeTemperature() {
-
-        	 console.log('切り替えました');
+         function subscribeSensorValues() {
+        	 console.log('Selected device has changed.');
 
              const temperaturePath = "/3303/0/5700";
              const humidityPath = "/3304/0/5700";
@@ -272,13 +209,11 @@
 
              document.getElementById("device-list-message-holder").innerText = "Enabling the selected device...";
 
-
              // Clear existing subscription if exist.
 
+             let subscriptionsPromise =	connect.deleteSubscriptions();
 
-             let promiseKari =	connect.deleteSubscriptions();
-
-             promiseKari
+             subscriptionsPromise
              .then(getValue("temperature", temperaturePath, 1))
              .then(getValue("humidity", humidityPath, 1))
              .then(getValue("pressure", pressurePath, 1))
@@ -289,10 +224,7 @@
                  console.log(error);
                  document.getElementById("device-list-message-holder").innerHTML = '<font color="#ff0000">' + error + "</font>";
              });
-
          }
-
-        //ここまで自作
 
         /*
          * Subscribes the camera resource on the selected device.
@@ -422,6 +354,9 @@
             }
         })();
 
+        /*
+         * Change the language mode from English to Japanese.
+         */
         $('#jp').on('click', function() {
         	$('.temperature_over').addClass('temperature_over_jp');
         	$('.humidity_over').addClass('humidity_over_jp');
@@ -434,6 +369,9 @@
         	$('#jp').addClass('button_selected');
         });
 
+        /*
+         * Change the language mode from Japanese to English.
+         */
         $('#en').on('click', function() {
         	$('.temperature_over').removeClass('temperature_over_jp');
         	$('.humidity_over').removeClass('humidity_over_jp');
@@ -445,7 +383,6 @@
         	$('#en').addClass('button_selected');
         	$('#jp').removeClass('button_selected');
         });
-
     </script>
 </body>
 </html>
